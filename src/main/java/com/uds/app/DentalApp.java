@@ -1,18 +1,18 @@
 package com.uds.app;
 
-import com.uds.data.AppointmentRepository;
+import com.uds.dao.AppointmentDAO;
 import com.uds.service.AppointmentService;
+import com.uds.util.JSONConverterUtil;
 
-public class Main {
+public class DentalApp {
     public static void main(String[] args) {
-        AppointmentRepository repository = new AppointmentRepository();
-        AppointmentService service = new AppointmentService(repository);
+        AppointmentService service = new AppointmentService(new AppointmentDAO());
 
-        try {
-            String json = service.getAppointmentsByQuarter(2025, 1);
-            System.out.println(json);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int year = 2025;
+        int quarter = 1;
+
+        var appointments = service.getAppointmentsByQuarter(year, quarter);
+        String json = JSONConverterUtil.toJson(appointments);
+        System.out.println(json);
     }
 }
